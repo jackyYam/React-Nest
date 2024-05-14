@@ -7,7 +7,7 @@ const ModeToggle = () => {
   return (
     <Button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="p-2 ml-10"
+      className="p-1 ml-10"
       variant={"outline"}
     >
       {theme === "dark" ? <Moon /> : <Sun />}

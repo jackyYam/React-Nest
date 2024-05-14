@@ -12,6 +12,7 @@ import {
 
 import { ThemeProvider } from "./context/ThemeProvider";
 import ModeToggle from "./components/ui/ModeToggle";
+import { Toaster } from "./components/ui/toaster";
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="info-form" element={<InfoForm />} />
         </Route>
       </Routes>
+      <Toaster />
     </ThemeProvider>
   );
 }
@@ -31,28 +33,16 @@ export default function App() {
 function Layout() {
   return (
     <div>
-      <NavigationMenu className="w-svw bg-background">
-        <NavigationMenuList>
+      <NavigationMenu className="w-svw bg-background h-12 items-center">
+        <NavigationMenuList className="space-x-6">
           <NavigationMenuItem>
-            <Link to="/home">
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Home
-              </NavigationMenuLink>
-            </Link>
+            <Link to="/home">Home</Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="/check-name">
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Check Name
-              </NavigationMenuLink>
-            </Link>
+            <Link to="/check-name">Check Name</Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link to="/info-form">
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Info collection form
-              </NavigationMenuLink>
-            </Link>
+            <Link to="/info-form">Info collection form</Link>
           </NavigationMenuItem>
         </NavigationMenuList>
         <ModeToggle />

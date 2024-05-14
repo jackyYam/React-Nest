@@ -47,6 +47,10 @@
     --input: 240 3.7% 15.9%;
     --ring: 142.4 71.8% 29.2%;
   }
+
+  .rdp-dropdown {
+    @apply bg-background text-foreground;
+  }
 }
 
 @layer base {

@@ -1,7 +1,6 @@
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -32,6 +31,10 @@ import { Calendar as CalendarIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+
+import axios from "axios";
+import type { responseError } from "./types";
+
 const FormSchema = z
   .object({
     name: z
@@ -71,9 +74,13 @@ const FormSchema = z
     { message: "Age and birthdate do not match", path: ["birthDate"] }
   );
 
-const InfoForm = () => {
+const InfoForm = ({
+  enableFrontValidation,
+}: {
+  enableFrontValidation: boolean;
+}) => {
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+    resolver: enableFrontValidation ? zodResolver(FormSchema) : undefined,
     defaultValues: {
       name: "",
       age: 0,
@@ -81,6 +88,18 @@ const InfoForm = () => {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    if (!enableFrontValidation) {
+      axios
+        .post("http://localhost:3001/info/complete-info-validate", data)
+        .catch((e) => {
+          const formErrors = e.response.data.errors as responseError[];
+          formErrors.forEach((error) => {
+            form.setError(error.path[0], {
+              message: error.message,
+            });
+          });
+        });
+    }
     toast({
       title: "You submitted the following values:",
       description: (

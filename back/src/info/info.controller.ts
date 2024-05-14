@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { InfoService } from './info.service';
-import { UpdateInfoRequest } from './interfaces';
+import { UpdateInfoRequest, CompleteInfoRequest } from './interfaces';
 import { BaseResponse } from '../interfaces';
 
 @Controller('info')
@@ -14,7 +14,7 @@ export class InfoController {
 
   @Post('/complete-info-validate')
   completeInfoValidate(
-    @Body() bodyRequest: UpdateInfoRequest,
+    @Body() bodyRequest: CompleteInfoRequest,
   ): Promise<BaseResponse> {
     return this.infoService.completeInfoValidate(bodyRequest);
   }
