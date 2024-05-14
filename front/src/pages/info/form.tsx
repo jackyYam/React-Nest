@@ -106,17 +106,25 @@ const InfoForm = ({
         setLoading(false);
       })
       .catch((e) => {
-        const formErrors = e.response.data.errors as responseError[];
-        formErrors.forEach((error) => {
-          form.setError(error.path[0], {
-            message: error.message,
+        if (e.message === "Network Error") {
+          setLoading(false);
+          toast({
+            title: "NetWork Error, please try again later.",
+            variant: "destructive",
           });
-        });
-        toast({
-          title: "There are errors in the form",
-          variant: "destructive",
-        });
-        setLoading(false);
+        } else {
+          const formErrors = e.response.data.errors as responseError[];
+          formErrors.forEach((error) => {
+            form.setError(error.path[0], {
+              message: error.message,
+            });
+          });
+          toast({
+            title: "There are errors in the form",
+            variant: "destructive",
+          });
+          setLoading(false);
+        }
       });
   }
 
