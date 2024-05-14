@@ -12,9 +12,12 @@ npm install
 npm run start
 ```
 
-The requested page can be found in `http://localhost:3000/info-form`, you can find a swith on that page that enables/disables the frontend form validation.
+The requested page can be found in `http://localhost:3000/info-form`, you can find a swith on that page that enables/disables the frontend form validation. You will find diferent validation message (This is not a good practice in production because it can cause user confusion, but i used it here to make the differences more notable)
 
 Also dark-mode is implmented for the application (It's activated by default, so it doesn't burn your eyes 😎)
+
+![image](https://github.com/jackyYam/React-Nest/assets/69604944/81c0a84d-5f50-45af-8b07-734e3cf51066)
+
 
 ## Backend
 
