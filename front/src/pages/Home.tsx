@@ -1,7 +1,7 @@
 export function Home() {
   return (
-    <div>
-      <h2>Home</h2>
+    <div className="flex justify-center items-center h-[70vh]">
+      <h2 className="font-xl font-bold">This is Home</h2>
     </div>
   );
 }

@@ -34,6 +34,7 @@ import { format } from "date-fns";
 
 import axios from "axios";
 import type { responseError } from "./types";
+import { useState } from "react";
 
 const FormSchema = z
   .object({
@@ -57,7 +58,6 @@ const FormSchema = z
   })
   .refine(
     (data) => {
-      console.log(data);
       const birthDate = new Date(data.birthDate);
       const now = new Date();
       var age = now.getFullYear() - birthDate.getFullYear();
@@ -79,6 +79,7 @@ const InfoForm = ({
 }: {
   enableFrontValidation: boolean;
 }) => {
+  const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: enableFrontValidation ? zodResolver(FormSchema) : undefined,
     defaultValues: {
@@ -88,26 +89,35 @@ const InfoForm = ({
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    if (!enableFrontValidation) {
-      axios
-        .post("http://localhost:3001/info/complete-info-validate", data)
-        .catch((e) => {
-          const formErrors = e.response.data.errors as responseError[];
-          formErrors.forEach((error) => {
-            form.setError(error.path[0], {
-              message: error.message,
-            });
+    setLoading(true);
+    axios
+      .post("http://localhost:3001/info/complete-info-validate", data)
+      .then((response) => {
+        toast({
+          title: "You succesfully submitted the following values:",
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">
+                {JSON.stringify(response.data.data, null, 2)}
+              </code>
+            </pre>
+          ),
+        });
+        setLoading(false);
+      })
+      .catch((e) => {
+        const formErrors = e.response.data.errors as responseError[];
+        formErrors.forEach((error) => {
+          form.setError(error.path[0], {
+            message: error.message,
           });
         });
-    }
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+        toast({
+          title: "There are errors in the form",
+          variant: "destructive",
+        });
+        setLoading(false);
+      });
   }
 
   return (
@@ -212,8 +222,8 @@ const InfoForm = ({
           )}
         />
 
-        <Button type="submit" className="w-full">
-          Submit
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? "loading..." : "Submit"}
         </Button>
       </form>
     </Form>

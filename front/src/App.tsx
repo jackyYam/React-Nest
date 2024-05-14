@@ -36,7 +36,7 @@ function Layout() {
       <NavigationMenu className="w-svw bg-background h-12 items-center">
         <NavigationMenuList className="space-x-6">
           <NavigationMenuItem>
-            <Link to="/home">Home</Link>
+            <Link to="/">Home</Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <Link to="/check-name">Check Name</Link>

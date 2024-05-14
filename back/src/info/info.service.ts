@@ -14,22 +14,32 @@ const InfoSchema = z
   .object({
     name: z
       .string()
-      .min(1, { message: 'Name is required' })
+      .min(5, { message: 'Name should be at least 5 characters' })
       .max(50, { message: 'Name is too long' }),
     age: z.coerce
       .number()
       .int()
-      .min(1, { message: 'Age is required' })
+      .min(1, { message: 'Age is required for us' })
       .max(150, { message: 'Age is too high' }),
     married: z.string().optional(),
     birthDate: z.string({
-      required_error: 'You need to provide your birthday.',
+      required_error: 'Birth date is required.',
     }),
   })
   .refine((data) => !(data.age >= 18 && data.married === undefined), {
-    message: 'You must provide marital status if you are 18 or older',
+    message: 'You need to provide marital status if you are 18 or older',
     path: ['married'],
   })
+  .refine(
+    (data) => {
+      const birthDate = new Date(data.birthDate);
+      if (!birthDate.getFullYear()) {
+        return false;
+      }
+      return true;
+    },
+    { message: 'Invalid date format', path: ['birthDate'] },
+  )
   .refine(
     (data) => {
       const birthDate = new Date(data.birthDate);
@@ -45,7 +55,10 @@ const InfoSchema = z
       }
       return age === data.age;
     },
-    { message: 'Age and birthdate do not match', path: ['birthDate'] },
+    {
+      message: 'Your birthday do not match with your age',
+      path: ['birthDate'],
+    },
   );
 @Injectable()
 export class InfoService {
