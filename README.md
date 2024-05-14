@@ -16,6 +16,9 @@ The requested page can be found in `http://localhost:3000/info-form`, you can fi
 
 Also dark-mode is implmented for the application (It's activated by default, so it doesn't burn your eyes 😎)
 
+![image](https://github.com/jackyYam/React-Nest/assets/69604944/81c0a84d-5f50-45af-8b07-734e3cf51066)
+
+
 ## Backend
 
 The requested endpoint can be find at `/info/complete-info-validate`, it uses [zod](https://zod.dev/) to provide Object schema validation, this brings the advantage of unifying schema with front and back, accelarating the develpment process.
