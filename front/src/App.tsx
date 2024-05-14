@@ -5,9 +5,7 @@ import InfoForm from "./pages/info";
 import {
   NavigationMenu,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
 import { ThemeProvider } from "./context/ThemeProvider";
